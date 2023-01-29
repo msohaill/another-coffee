@@ -4,8 +4,8 @@ import { Category } from "../enums/Category"
 @Entity()
 export class Budget {
     @PrimaryColumn()
-    Category: Category
+    category: Category
 
-    @Column("decimal",{ scale: 2, nullable: false })
+    @Column("decimal",{ scale: 2, nullable: false, default: 250.00 })
     limit: number
 }

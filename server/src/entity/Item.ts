@@ -5,18 +5,18 @@ import { Receipt } from "./Receipt"
 @Entity()
 export class Item {
     @PrimaryGeneratedColumn()
-    id: number
+    id: number;
 
     @Column({ nullable: false })
-    name : string
+    name: string;
 
-    @Column({ nullable: false })
-    category: Category
+    @Column("decimal", { scale: 2, nullable: false })
+    price: number;
 
     @Column("text", { array: true, nullable: false, default: '[]'})
-    tag : string[]
+    tag: string[];
 
-    @ManyToOne(() => Receipt, receipt => receipt.items) 
-    receipt: Receipt
-    
+    @ManyToOne(() => Receipt, receipt => receipt.items)
+    receipt: Receipt;
+
 }

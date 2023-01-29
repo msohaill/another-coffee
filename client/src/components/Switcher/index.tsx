@@ -2,7 +2,15 @@ import { AddBoxRounded, QueryStats, ReceiptLong } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import "./style.scss";
 
-const Switcher = () => {
+const Switcher = ({ submission, setFile }: { submission: React.Dispatch<React.SetStateAction<boolean>>, setFile: React.Dispatch<React.SetStateAction<File>> }) => {
+  const uploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files?.length) return;
+
+    setFile(e.target.files[0]);
+    e.target.value = '';
+    submission(true);
+  };
+
   return (
     <div id="switcher">
       <Button className="switcher-button">
@@ -15,6 +23,7 @@ const Switcher = () => {
         accept="image/*"
         multiple={false}
         hidden
+        onChange={uploadImage}
       />
       <Button>
         <label id="receipt-upload-label" htmlFor="receipt-upload">

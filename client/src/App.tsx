@@ -1,21 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import './App.scss';
 import Switcher from './components/Switcher';
 import Home from './components/Home';
+import Submission from './components/Submission';
+import { useState } from 'react';
 
 function App() {
-  const [data, setData] = useState('');
-
-  useEffect(() => {
-    axios.get('http://localhost:8000/hello').then(d => setData(d.data));
-  }, []);
-  console.log(data);
+  const [submissionOpen, setSubmissionOpen] = useState(false);
+  const [file, setFile] = useState<File>(new File([], 'X'));
 
   return (
     <div className="app">
       <Home/>
-      <Switcher />
+      <Switcher submission={setSubmissionOpen} setFile={setFile}/>
+      <Submission open={submissionOpen} setOpen={setSubmissionOpen} file={file}/>
     </div>
   );
 }

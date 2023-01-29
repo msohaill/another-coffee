@@ -1,17 +1,19 @@
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from "recharts";
+import { Budget } from '../../types/Budget';
+import { Category } from '../../types/enums/Category';
 import './style.scss'
 
-const Progress = ({ category }: { category: string}) => {
+const Progress = ({ budget, total }: { budget: Budget, total: number}) => {
   const data = [
     {
       name: "Page A",
-      pv: Math.floor(Math.random() * 100),
+      pv: Math.round(100 * total / budget.limit),
     },
   ];
 
   return (
     <div className='progress'>
-      <p>{category}</p>
+      <p>{Category[budget.category]}</p>
       <ResponsiveContainer width="100%" >
         <BarChart layout="vertical" data={data} height={10} width={200}>
           <XAxis type="number" hide domain={[0, 100]} />
@@ -19,7 +21,7 @@ const Progress = ({ category }: { category: string}) => {
           <Bar dataKey="pv" barSize={7} fill="#413ea0" />
         </BarChart>
       </ResponsiveContainer>
-      <p style={{ fontSize: 10, alignSelf: 'flex-end' }}>${Math.round(1200 * (data[0].pv / 100))}/$1,200</p>
+      <p style={{ fontSize: 10, alignSelf: 'flex-end' }}>${total.toLocaleString()}/${budget.limit.toLocaleString()}</p>
     </div>
   );
 };

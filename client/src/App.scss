@@ -17,3 +17,18 @@
   align-items: center;
   gap: 20px;
 }
+
+.submission {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #f2f2fb;
+  height: 30%;
+  width: 90%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

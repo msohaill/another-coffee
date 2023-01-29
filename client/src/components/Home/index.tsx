@@ -4,8 +4,16 @@ import finance from '../../assets/finances.png';
 import Nav from '../Nav';
 import './style.scss';
 import Progress from '../Progress';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { Budget } from '../../types/Budget';
 
 const Home = () => {
+  const [budgets, setBudgets] = useState<[Budget, number][]>([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:8000/budgets').then(d => setBudgets(d.data.budgets)).catch(e => console.log(e));
+  }, []);
 
   return (
     <>
@@ -18,7 +26,7 @@ const Home = () => {
             <p style={{ fontSize: 12 }}>Yikes! Do you even know how to budget?</p>
           </Card>
         </div>
-        {['Total Budget', 'Grocery', 'Home', 'Dining', 'Entertainment', 'Transportation', 'Clothing', 'Health', 'Personal', 'Education', 'Gifts', 'Other'].map(n => <Progress key={n} category={n} />)}
+        {budgets.map(b => <Progress key={b[0].category} budget={b[0]} total={b[1]}  />)}
       </Paper>
     </>
   )

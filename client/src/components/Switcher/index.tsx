@@ -1,4 +1,4 @@
-import { AddBoxRounded, QueryStats, Receipt } from "@mui/icons-material";
+import { AddBoxRounded, QueryStats, ReceiptLong } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import "./style.scss";
 
@@ -6,7 +6,7 @@ const Switcher = () => {
   return (
     <div id="switcher">
       <Button className="switcher-button">
-        <Receipt/>
+        <ReceiptLong/>
         <p>Browse</p>
       </Button>
       <input

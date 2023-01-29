@@ -16,6 +16,6 @@ const authToken = "7311a8c28a4bb6989be09756c4631c04";
 const client = twiolio(accountSid, authToken);
 
 client.messages
-  .create({ body: "Hello from Twilio", from: "+15752375756", to: "+15144412932" })});
+  .create({ body: req.body.message, from: "+15752375756", to: "+15144412932" })});
 
 export default router;

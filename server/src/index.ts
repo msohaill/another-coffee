@@ -10,6 +10,7 @@ import { source } from './data-source';
 import uploadController from './modules/upload/upload.controller';
 import notificationController from './modules/notifications/notification.controller';
 import budgetController from './modules/budget/budget.controller';
+import searchController from './modules/search/search.controller';
 
 config();
 source.initialize();
@@ -25,6 +26,7 @@ const http = createServer(app);
 app.use('/budgets', budgetController);
 app.use('/upload', uploadController);
 app.use('/notif', notificationController)
+app.use('/search', searchController);
 
 http.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);

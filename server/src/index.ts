@@ -21,7 +21,7 @@ const app = express();
 const port = process.env.PORT ?? 8000;
 
 app.use(cors({ credentials: true, origin: true }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '16mb' }));
 
 const http = createServer(app);
 

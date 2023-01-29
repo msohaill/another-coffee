@@ -27,7 +27,7 @@ const Submission = ({
 
         reader.onloadend = () => {
           axios.post(
-            "http://localhost:8000/upload",
+            "http://192.168.0.18:8000/upload",
             { receipt: reader.result, category: Category[category as keyof typeof Category] },
             { headers: { "Content-Type": "application/json" } }
           ).then(res => res.status === 200 && setFile(new File([], 'X')) );

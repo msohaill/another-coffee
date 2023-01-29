@@ -8,7 +8,7 @@ const router = Router();
 router.post('', async (req, res) => {
 
   const receiptRepository = source.getRepository(Receipt);
-  const receipts = await receiptRepository.find();
+  const receipts = await receiptRepository.find({ relations: ['items'], order: { date: 'DESC' } });
   res.json({ receipts });
 });
 

@@ -1,3 +1,4 @@
+import { Tooltip } from '@mui/material';
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import { Budget } from "../../types/Budget";
 import { Category } from "../../types/enums/Category";
@@ -21,9 +22,9 @@ const Progress = ({ budget, total }: { budget: Budget; total: number }) => {
           <Bar dataKey="pv" barSize={7} fill="#413ea0" />
         </BarChart>
       </ResponsiveContainer>
-      <p style={{ fontSize: 10, alignSelf: "flex-end" }}>
-        ${total.toLocaleString()}/${budget.limit.toLocaleString()}
-      </p>
+      <Tooltip title={total > budget.limit ? 'Wow, you\'re above your budget! Better keep track next month!' : null} sx={{ cursor: 'pointer' }} >
+        <p style={{ fontSize: 10, alignSelf: 'flex-end', cursor: total > budget.limit ? 'pointer' : undefined }}>${total.toLocaleString()}/${budget.limit.toLocaleString()}</p>
+      </Tooltip>
     </div>
   );
 };

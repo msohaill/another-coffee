@@ -8,7 +8,7 @@ router.get('', async (req, res) => {
 
   const receiptRepository = source.getRepository(Receipt);
   const receipt = receiptRepository.create({ date: new Date(), tax: 7.99, vendor: "Walmart" });
-  const r = await receiptRepository.findOneOrFail({ where: {id: 1} })
+
   res.json(receipt);
 });
 

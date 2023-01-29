@@ -1,3 +1,19 @@
 .app {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tab {
+  position: fixed;
+  width: 95%;
+  top: 10%;
+  height: calc(80% - 40px);
+  padding-top: 20px;
+  overflow: scroll;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }

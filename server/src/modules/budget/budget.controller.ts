@@ -5,14 +5,11 @@ import { Receipt } from '../../entity/Receipt';
 
 const router = Router();
 
-<<<<<<< HEAD
 /**
  * calculate remaining budget based on all receipts in the database
  * could be made to be more efficient by only calculating the difference between the last receipt and the current one
  */
 
-=======
->>>>>>> e574cbc (Working on other pages)
 router.get('', async (req, res) => {
 
   const budgetRepository = source.getRepository(Budget);

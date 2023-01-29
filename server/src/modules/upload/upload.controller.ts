@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { source } from '../../data-source';
 import { Receipt } from '../../entity/Receipt';
+import {Item} from '../../entity/Item';
 import * as fs from 'fs';
 const cohere = require('cohere-ai');
 const router = Router();
@@ -24,14 +25,17 @@ router.get('', async (req, res) => {
     console.log(verifyResponse);    // print the response
 
     const receiptRepository = source.getRepository(Receipt);    // get the receipt repository
-    const receipt = receiptRepository.create({ date: Date.parse(verifyResponse.date), tax: verifyResponse.tax, vendor: verifyResponse.vendor.stringify() }); // create a new receipt
+    const receipt = receiptRepository.create({  date: Date.parse(verifyResponse.date), 
+                                                tax: verifyResponse.tax,
+                                                vendor: verifyResponse.vendor.stringify(),
+                                                items: verifyResponse.line_items}); // create a new receipt
 
     // save each receipt item on the database
     for (let i = 0; i < verifyResponse.line_items.length; i++) {
-        const item = verifyResponse.line_items[i].description;
+        const name = verifyResponse.line_items[i].description;
         const cohereResponse = await cohere.generate({
             model: 'command-xlarge-20221108',
-            prompt: 'In what broad category of groceries do you categorize' + item + 'if you saw it on a receipt? In one word please.',
+            prompt: 'In what broad category of groceries do you categorize' + name + 'if you saw it on a receipt? In one word please.',
             max_tokens: 300,
             temperature: 0.9,
             k: 0,
@@ -42,8 +46,13 @@ router.get('', async (req, res) => {
             return_likelihoods: 'NONE'
         });
         // save the stuff on the entities table for each item
-
         const tag = `${cohereResponse.body.generations[0].text}`;
+        const itemRepository = source.getRepository(Item); 
+        const item = itemRepository.create({
+            name: name, 
+            category: req.body.category,
+            tag: [tag],
+            receipt: receipt}); // create a new item
         console.log(item);
     }
     res.json(receipt);

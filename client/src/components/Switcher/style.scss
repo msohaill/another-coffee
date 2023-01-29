@@ -1,0 +1,17 @@
+#switcher {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 10%;
+  border-top: 2px solid rgb(208, 208, 208);
+
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.switcher-button {
+  display: flex;
+  gap: 5px;
+}

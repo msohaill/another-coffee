@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm"
+import { Item } from "./Item"
 
 @Entity()
 export class Receipt {
@@ -13,4 +14,8 @@ export class Receipt {
 
     @Column("decimal", { scale: 2, nullable: false })
     tax: number
+    
+    // not a real feild, but typeorm will allow us to query for items with this receipt
+    @OneToMany( () => Item, item => item.receipt) 
+    items: Item[]
 }

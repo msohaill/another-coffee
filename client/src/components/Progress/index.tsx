@@ -1,10 +1,20 @@
 import { Tooltip } from '@mui/material';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from "recharts";
 import { Budget } from "../../types/Budget";
 import { Category } from "../../types/enums/Category";
 import "./style.scss";
 
 const Progress = ({ budget, total }: { budget: Budget; total: number }) => {
+  const [message, setMessage] = useState(null);
+  useEffect(() => {
+    if (total +200 > budget.limit)
+      axios.post('http://localhost:8000/message/', { category: budget.category, overflow: Math.round(total - budget.limit) })
+        .then(res => setMessage(res.data))
+        .catch(e => console.log(e));
+  }, [budget.category, budget.limit, total]);
+
   const data = [
     {
       name: "Page A",
@@ -22,7 +32,7 @@ const Progress = ({ budget, total }: { budget: Budget; total: number }) => {
           <Bar dataKey="pv" barSize={7} fill="#413ea0" />
         </BarChart>
       </ResponsiveContainer>
-      <Tooltip title={total > budget.limit ? 'Wow, you\'re above your budget! Better keep track next month!' : null} sx={{ cursor: 'pointer' }} >
+      <Tooltip title={message} sx={{ cursor: 'pointer' }} >
         <p style={{ fontSize: 10, alignSelf: 'flex-end', cursor: total > budget.limit ? 'pointer' : undefined }}>${total.toLocaleString()}/${budget.limit.toLocaleString()}</p>
       </Tooltip>
     </div>

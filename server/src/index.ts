@@ -11,6 +11,7 @@ import uploadController from './modules/upload/upload.controller';
 import notificationController from './modules/notifications/notification.controller';
 import budgetController from './modules/budget/budget.controller';
 import searchController from './modules/search/search.controller';
+import messageController from './modules/message/message.controller';
 
 config();
 source.initialize();
@@ -27,6 +28,7 @@ app.use('/budgets', budgetController);
 app.use('/upload', uploadController);
 app.use('/notif', notificationController)
 app.use('/search', searchController);
+app.use('/message', messageController);
 
 http.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);

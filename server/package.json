@@ -26,6 +26,7 @@
       "request-promise-native": "^1.0.9",
       "sqlite3": "^5.1.4",
       "tsc-watch": "^6.0.0",
+      "twilio": "^3.84.1",
       "typeorm": "0.3.11"
    },
    "devDependencies": {

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { source } from '../../data-source';
 import { Receipt } from '../../entity/Receipt';
-import {Item} from '../../entity/Item';
+import { Item } from '../../entity/Item';
 import * as fs from 'fs';
 const cohere = require('cohere-ai');
 const router = Router();
@@ -30,28 +30,51 @@ router.get('', async (req, res) => {
                                                 vendor: verifyResponse.vendor.stringify(),
                                                 items: verifyResponse.line_items}); // create a new receipt
 
-    // save each receipt item on the database
+
+    // iterate over verifyResponse.line_items and for the description attribute of each item, add it to the 
+    // end of the string 'In what broad categories of groceries do you categorize' separating every new item using ',' as well as adding the string to a list called tags. In the last iteration, add an
+    // 'and' before the last item. And at the end, add 'if you saw it on a receipt? One word for each.'
+    // for example: 'In what broad categories of groceries do you categorize milk, eggs, and bread if you saw it on a receipt? One word for each.'
+    let starter = 'In what broad categories of ' + req.body.category + ' do you categorize';
     for (let i = 0; i < verifyResponse.line_items.length; i++) {
         const name = verifyResponse.line_items[i].description;
-        const cohereResponse = await cohere.generate({
-            model: 'command-xlarge-20221108',
-            prompt: 'In what broad category of groceries do you categorize' + name + 'if you saw it on a receipt? In one word please.',
-            max_tokens: 300,
-            temperature: 0.9,
-            k: 0,
-            p: 0.75,
-            frequency_penalty: 0,
-            presence_penalty: 0,
-            stop_sequences: [],
-            return_likelihoods: 'NONE'
-        });
-        // save the stuff on the entities table for each item
-        const tag = `${cohereResponse.body.generations[0].text}`;
+        if (i == verifyResponse.line_items.length - 1) {
+            // if it's the last item, add an 'and' before it
+            starter += ' and ' + name + ' if you saw it on a receipt? One word for each.';
+        } else {
+            starter +=  ' ' + name + ',';
+        }
+    }
+
+    const cohereResponse = await cohere.generate({
+        model: 'command-xlarge-20221108',
+        prompt: starter,
+        max_tokens: 300,
+        temperature: 0.9,
+        k: 0,
+        p: 0.75,
+        frequency_penalty: 0,
+        presence_penalty: 0,
+        stop_sequences: [],
+        return_likelihoods: 'NONE'
+    });
+
+    const tagss = `${cohereResponse.body.generations[0].text}`;
+    const lines = tagss.split('\n');
+    const tags = lines.map((line) => {
+        const parts = line.split(' - ');
+        return parts[1];
+    });
+
+    // save each receipt item on the database
+    // iterate through secondWords and for each item, save it on the database
+    for (let i = 0; i < tags.length; i++) {
+
         const itemRepository = source.getRepository(Item); 
         const item = itemRepository.create({
-            name: name, 
+            name: verifyResponse.line_items[i].description, 
             category: req.body.category,
-            tag: [tag],
+            tag: [tags[i]],
             receipt: receipt}); // create a new item
         console.log(item);
     }

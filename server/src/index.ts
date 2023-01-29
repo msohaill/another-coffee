@@ -12,6 +12,7 @@ import notificationController from './modules/notifications/notification.control
 import budgetController from './modules/budget/budget.controller';
 import searchController from './modules/search/search.controller';
 import messageController from './modules/message/message.controller';
+import receiptController from './modules/receipt/receipt.controller';
 
 config();
 source.initialize();
@@ -26,9 +27,10 @@ const http = createServer(app);
 
 app.use('/budgets', budgetController);
 app.use('/upload', uploadController);
-app.use('/notif', notificationController)
 app.use('/search', searchController);
 app.use('/message', messageController);
+app.use('/notif', notificationController);
+app.use('/receipts', receiptController);
 
 http.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);

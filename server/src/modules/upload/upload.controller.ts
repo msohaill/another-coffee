@@ -62,6 +62,8 @@ router.post("", async (req, res) => {
     itemRepository.insert(createdItem);
     console.log(createdItem)
   });
+
+  res.sendStatus(200);
 });
 
 export default router;

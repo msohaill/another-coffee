@@ -8,16 +8,16 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Budget } from '../../types/Budget';
 
-const Home = () => {
+const Home = ({ change }: { change: File }) => {
   const [budgets, setBudgets] = useState<[Budget, number][]>([]);
 
   useEffect(() => {
     axios.get('http://localhost:8000/budgets').then(d => setBudgets(d.data.budgets)).catch(e => console.log(e));
-  }, []);
+  }, [change]);
 
   return (
     <>
-      <Nav title='Home' goHome={false} />
+      <Nav title='Home' goHome={false} setPage={() => null} />
       <Paper className='tab' sx={{ boxShadow: 'none' }}>
         <div id='landing-container'>
           <img src={finance} id='landing-pic' alt='personal-finances' />

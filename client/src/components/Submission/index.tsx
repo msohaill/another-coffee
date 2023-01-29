@@ -8,10 +8,12 @@ const Submission = ({
   open,
   setOpen,
   file,
+  setFile
 }: {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   file: File;
+  setFile: React.Dispatch<React.SetStateAction<File>>
 }) => {
   const [category, setCategory] = useState(Category[Category.Grocery]);
 
@@ -28,7 +30,7 @@ const Submission = ({
             "http://localhost:8000/upload",
             { receipt: reader.result, category: Category[category as keyof typeof Category] },
             { headers: { "Content-Type": "application/json" } }
-          );
+          ).then(res => res.status === 200 && setFile(new File([], 'X')) );
         };
 
         reader.readAsDataURL(res);

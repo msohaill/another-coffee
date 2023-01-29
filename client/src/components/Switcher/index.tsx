@@ -2,19 +2,27 @@ import { AddBoxRounded, QueryStats, ReceiptLong } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import "./style.scss";
 
-const Switcher = ({ submission, setFile }: { submission: React.Dispatch<React.SetStateAction<boolean>>, setFile: React.Dispatch<React.SetStateAction<File>> }) => {
+const Switcher = ({
+  submission,
+  setFile,
+  setPage,
+}: {
+  submission: React.Dispatch<React.SetStateAction<boolean>>;
+  setFile: React.Dispatch<React.SetStateAction<File>>;
+  setPage: React.Dispatch<React.SetStateAction<string>>;
+}) => {
   const uploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.length) return;
 
     setFile(e.target.files[0]);
-    e.target.value = '';
+    e.target.value = "";
     submission(true);
   };
 
   return (
     <div id="switcher">
-      <Button className="switcher-button">
-        <ReceiptLong/>
+      <Button className="switcher-button" onClick={() => setPage('Browse')}>
+        <ReceiptLong />
         <p>Browse</p>
       </Button>
       <input
@@ -33,7 +41,7 @@ const Switcher = ({ submission, setFile }: { submission: React.Dispatch<React.Se
           />
         </label>
       </Button>
-      <Button className="switcher-button">
+      <Button className="switcher-button" onClick={() => setPage('Insights')}>
         <QueryStats />
         <p>Insights</p>
       </Button>

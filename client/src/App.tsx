@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import logo from './logo.svg';
 import './App.css';
@@ -6,7 +6,10 @@ import './App.css';
 function App() {
   const [data, setData] = useState('');
 
-  setInterval(() => axios.get('http://localhost:8000/hello').then(d => setData(d.data)), 1000)
+  useEffect(() => {
+    axios.get('http://localhost:8000/hello').then(d => setData(d.data));
+  }, []);
+
 
   return (
     <div className="App">

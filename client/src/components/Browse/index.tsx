@@ -24,7 +24,7 @@ const Browse = ({
 
   useEffect(() => {
     axios
-      .get("http://192.168.0.18:8000/receipts")
+      .get("http://localhost:8000/receipts")
       .then((res) => setReceipts(res.data.receipts))
       .catch((e) => console.log(e));
   }, []);

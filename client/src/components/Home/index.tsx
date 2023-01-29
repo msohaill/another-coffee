@@ -12,7 +12,7 @@ const Home = ({ change }: { change: File }) => {
   const [budgets, setBudgets] = useState<[Budget, number][]>([]);
 
   useEffect(() => {
-    axios.get('http://192.168.0.18:8000/budgets').then(d => setBudgets(d.data.budgets)).catch(e => console.log(e));
+    axios.get('http://localhost:8000/budgets').then(d => setBudgets(d.data.budgets)).catch(e => console.log(e));
   }, [change]);
 
   return (
